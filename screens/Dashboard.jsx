@@ -1,5 +1,7 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect } from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { useSelector } from 'react-redux';
 
 const cardData = [
   { id: 1, number: '0', text: "Today's Pending F/W" },
@@ -15,10 +17,24 @@ const cardData = [
 
 const Dashboard = ({ navigation }) => {
   const navigate = navigation.navigate;
+  const {user} = useSelector((state) => state.user);
+
+  useEffect(() => {
+    const url = `${process.env.BASE_URL}/Dashboard/${user.user.first_name}`;
+    console.log(url);
+    axios.get(`http://10.22.130.15:8000/api/Dashboard/${user.user.first_name}` ,{
+      withCredentials: true,
+      headers:{
+        'Authorization': `Bearer ${user.access}`
+      }
+    }).then((res) => console.log({data:res.data})).catch((err) => console.log({err}));
+  },[])
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
+       {/* {user && <Text>Hello {user.user.first_name}</Text>} */}
+
         <ScrollView style={styles.scroller}>
           {cardData.map((card) => (
             <TouchableOpacity

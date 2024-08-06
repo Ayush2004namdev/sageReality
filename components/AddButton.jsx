@@ -4,6 +4,7 @@ import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleAdd } from '../redux/slices/misc';
 import { useNavigation } from '@react-navigation/native';
+import { blue, yellow } from '../constants';
 
 const Add = () => {
   const navigator = useNavigation();
@@ -24,7 +25,7 @@ const Add = () => {
       <View style={styles.waveContainer}>
         <View style={styles.wave}></View>
       </View>
-      <Pressable onPress={() => handleNavigation('Dashboard')} style={[styles.secondaryButton, isAddOpen && styles.homeButtonOpen]}>
+      <Pressable onPress={() => handleNavigation('HomeVisit')} style={[styles.secondaryButton, isAddOpen && styles.homeButtonOpen]}>
         <Ionicons name='home-outline' size={24} color='#FFF' />
       </Pressable>
       <Pressable onPress={() => handleNavigation('CorpVisit')} style={[styles.secondaryButton, isAddOpen && styles.corpButtonOpen]}>
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     left: 0,
-    transform: [{ rotate: '0deg' }], // Adjust rotation if necessary
+    transform: [{ rotate: '0deg' }],
   },
   button: {
     backgroundColor: '#ddbf09',
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     borderRadius: 36,
     position: 'absolute',
     top: -58,
-    shadowColor: '#003068',
+    shadowColor: yellow,
     shadowRadius: 5,
     elevation: 5,
     shadowOffset: { height: 10 },
@@ -92,6 +93,7 @@ const styles = StyleSheet.create({
   buttonOpen: {
     transform: [{ rotate: '45deg' }],
     backgroundColor: '#003068',
+    shadowColor: blue,
     opacity: 1,
   },
   secondaryButton: {
@@ -99,6 +101,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: 48,
+    shadowColor: yellow,
+    shadowRadius: 5,
+    elevation: 5,
+    shadowOffset: { height: 10 },
+    shadowOpacity: 5,
     height: 48,
     borderRadius: 24,
     backgroundColor: '#ddbf09',
@@ -106,7 +113,7 @@ const styles = StyleSheet.create({
     transition: 'transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.3s ease-in-out',
   },
   homeButtonOpen: {
-    transform: [{ translateX: -100 }, { translateY: -100 }],
+    transform: [{ translateX: -80 }, { translateY: -100 }],
     opacity: 1,
   },
   corpButtonOpen: {
@@ -114,7 +121,7 @@ const styles = StyleSheet.create({
     opacity: 1,
   },
   smfButtonOpen: {
-    transform: [{ translateX: 100 }, { translateY: -100 }],
+    transform: [{ translateX: 80 }, { translateY: -100 }],
     opacity: 1,
   },
 });

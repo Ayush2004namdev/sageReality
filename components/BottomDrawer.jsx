@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
+import { useDispatch } from 'react-redux';
+import { setIsMenuOpen, toggleAdd } from '../redux/slices/misc';
 
 const BottomDrawer = ({ isVisible, onClose }) => {
   const navigation = useNavigation();
@@ -22,12 +24,17 @@ const BottomDrawer = ({ isVisible, onClose }) => {
 
   const menuItems = [
     { name: 'Set Monthly Target', icon: 'help-buoy-outline', route: 'SetMonthlyTarget' },
-    { name: 'Corporate Visit', icon: 'business', route: 'CorporateVisit' },
+    { name: 'Corporate Visit', icon: 'business', route: 'CorpVisit' },
+    { name: 'Sage Mitra Follow Up', icon: 'people-outline', route: 'SageMF' },
     { name: 'Home Visit', icon: 'home', route: 'HomeVisit' },
     { name: 'Event', icon: 'calendar', route: 'Event' },
-    { name: 'Admission Done', icon: 'school', route: 'AdmissionDone' },
-    { name: 'IP Done', icon: 'medical', route: 'IPDone' },
+    { name: 'Admission Done', icon: 'school', route: 'Admission' },
+    { name: 'IP Done', icon: 'medical', route: 'IpDone' },
   ];
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(toggleAdd(false));
+  },[])
 
   return (
     <Animated.View style={[styles.container, animatedStyle]}>
@@ -49,7 +56,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    height: '66%',
+    height: '59%',
     backgroundColor: 'white',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,

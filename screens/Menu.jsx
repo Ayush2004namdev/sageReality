@@ -20,15 +20,20 @@ const Menu = () => {
     dispatch(setIsMenuOpen(false));
   };
 
+  const handleMenuClose = (e) => {
+    e.preventDefault();
+    dispatch(setIsMenuOpen(false));
+  }
+
   return (
     <>
       {isMenuOpen && (
-        <View style={styles.drawerContainer}>
+        <Pressable onPress={handleMenuClose} style={styles.drawerContainer}>
           <BottomDrawer isVisible={isMenuOpen} onClose={handleOnMenuClose} />
-        </View>
+        </Pressable>
       )}
       <Pressable onPress={handleMenuOnPress} style={styles.menuIcon}>
-        <Ionicons name="grid" size={24} color="white" />
+        <Ionicons name="grid" size={30} color="white" />
       </Pressable>
     </>
   );
@@ -44,7 +49,7 @@ const styles = StyleSheet.create({
   },
   menuIcon: {
     position: 'absolute',
-    bottom: 5,
+    bottom: 2,
     right: 10,
     padding: 10,
     borderRadius: 50,
@@ -56,7 +61,7 @@ const styles = StyleSheet.create({
     left: 0,
     width: width, 
     height: height, 
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    backgroundColor: 'rgba(0, 0, 0, 0.3)', 
     zIndex: 1000, 
   },
 });

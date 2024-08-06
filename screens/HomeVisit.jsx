@@ -1,36 +1,25 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, Platform, Alert, Image, Pressable } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Picker } from "@react-native-picker/picker";
-import { RadioButton } from 'react-native-paper';
-import { SafeAreaView } from "react-navigation";
 import * as ImagePicker from 'expo-image-picker';
-import { blue, yellow } from "../constants";
+import React, { useState } from "react";
+import { Alert, Image, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { RadioButton } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { SafeAreaView } from "react-navigation";
+import { blue } from "../constants";
 
-const CorpVisit = () => {
+const HomeVisit = () => {
   const [formData, setFormData] = useState({
     name: "",
+    customerName: "",
+    customerContact: "",
+    remark:'',
     location: "",
-    branch: "",
-    keyPerson: "",
-    mobileNumber: "",
-    corporateType: "select",
-    corporate: "select",
-    firstGroupValue: null,
-    secondGroupValue: null,
     date: new Date(),
-    plannedDate: new Date(),
     image: null,
-    reason: "",
-    noOfPeopleMet: "",
-    DataCollected: "",
     teamMembers: [],
   });
 
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showPlannedDatePicker, setShowPlannedDatePicker] = useState(false);
-  const [showReasonTextInput, setShowReasonTextInput] = useState(false);
   const [showTeamSelect, setShowTeamSelect] = useState(false);
 
   const onDateChange = (event, selectedDate) => {
@@ -43,11 +32,6 @@ const CorpVisit = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const onPlannedDateChange = (event, selectedDate) => {
-    const currentDate = selectedDate || formData.plannedDate;
-    setShowPlannedDatePicker(Platform.OS === 'ios');
-    setFormData({ ...formData, plannedDate: currentDate });
-  };
 
   const addTeamMember = () => {
     setFormData({ ...formData, teamMembers: [...formData.teamMembers, ""] });
@@ -76,7 +60,6 @@ const CorpVisit = () => {
         { cancelable: false }
       );
     } else {
-      console.log(formData);
       Alert.alert("Success", "All fields are filled.", [{ text: "OK" }]);
     }
   };
@@ -104,10 +87,10 @@ const CorpVisit = () => {
     <SafeAreaView>
       <ScrollView>
         <View style={styles.container}>
-          <Text style={styles.title}>Corporate Visit</Text>
+          <Text style={styles.title}>Home Visit Form</Text>
           <View style={styles.separator}></View>
-          <Text style={styles.caption}>Feed Your Corporate Visit Details.</Text>
-          <Text style={styles.caption}>Fill all the Details.</Text>
+          <Text style={styles.caption}>Feed Your Home Visit Details..</Text>
+
 
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Name</Text>
@@ -115,6 +98,26 @@ const CorpVisit = () => {
               value={formData.name}
               onChangeText={value => handleInputChange('name', value)}
               placeholder="Enter Your Name"
+              style={styles.inputText}
+            />
+          </View>
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}> Customer Name</Text>
+            <TextInput
+              value={formData.customerName}
+              onChangeText={value => handleInputChange('customerName', value)}
+              placeholder="Enter customer Name"
+              style={styles.inputText}
+            />
+          </View>
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Customer Contact Number</Text>
+            <TextInput
+              value={formData.customerContact}
+              onChangeText={value => handleInputChange('customerContact', value)}
+              placeholder="Enter Customer Contact Number"
               style={styles.inputText}
             />
           </View>
@@ -143,33 +146,13 @@ const CorpVisit = () => {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Select Corporate Type</Text>
-            <View style={styles.pickerContainer}>
-              <Picker
-                selectedValue={formData.corporateType}
-                onValueChange={(itemValue) => handleInputChange('corporateType', itemValue)}
-                style={styles.picker}
-              >
-                <Picker.Item label="Select" value="select" />
-                <Picker.Item label="Type 1" value="type1" />
-                <Picker.Item label="Type 2" value="type2" />
-              </Picker>
-            </View>
-          </View>
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Select Corporate</Text>
-            <View style={styles.pickerContainer}>
-              <Picker
-                selectedValue={formData.corporate}
-                onValueChange={(itemValue) => handleInputChange('corporate', itemValue)}
-                style={styles.picker}
-              >
-                <Picker.Item label="Select" value="select" />
-                <Picker.Item label="Type 1" value="type1" />
-                <Picker.Item label="Type 2" value="type2" />
-              </Picker>
-            </View>
+            <Text style={styles.label}>Remark</Text>
+            <TextInput
+              value={formData.remark}
+              onChangeText={value => handleInputChange('remark', value)}
+              placeholder="Remark"
+              style={styles.inputText}
+            />
           </View>
 
           <View style={styles.inputGroup}>
@@ -177,137 +160,16 @@ const CorpVisit = () => {
             <TextInput
               value={formData.location}
               onChangeText={value => handleInputChange('location', value)}
-              placeholder="Enter Location/Branch"
+              placeholder="Enter Location"
               style={styles.inputText}
             />
           </View>
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Key Person</Text>
-            <TextInput
-              value={formData.keyPerson}
-              onChangeText={value => handleInputChange('keyPerson', value)}
-              placeholder="Enter Key Person"
-              style={styles.inputText}
-            />
-          </View>
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Mobile Number</Text>
-            <TextInput
-            keyboardType="numeric"
-              value={formData.mobileNumber}
-              onChangeText={value => handleInputChange('mobileNumber', value)}
-              placeholder="Enter Mobile Number of Key Person"
-              style={styles.inputText}
-            />
-          </View>
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>No of People Met</Text>
-            <TextInput
-              keyboardType="numeric"
-              value={formData.noOfPeopleMet}
-              onChangeText={value => handleInputChange('noOfPeopleMet', value)}
-              placeholder="Enter No of People Met..."
-              style={styles.inputText}
-            />
-          </View>
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Data Collected</Text>
-            <TextInput
-            keyboardType="numeric"
-              value={formData.DataCollected}
-              onChangeText={value => handleInputChange('dataCollected', value)}
-              placeholder="Enter Data Collected"
-              style={styles.inputText}
-            />
-          </View>
-
-         
-
-         
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Presentation</Text>
-            <View style={styles.radioGroup}>
-              <RadioButton.Group
-                onValueChange={(value) => {
-                  handleInputChange('firstGroupValue', value);
-                  if (value === "Planned") {
-                    setShowPlannedDatePicker(true);
-                    setShowReasonTextInput(false);
-                  } else if (value === "NotPlanned") {
-                    setShowReasonTextInput(true);
-                    setShowPlannedDatePicker(false);
-                  } else {
-                    setShowPlannedDatePicker(false);
-                    setShowReasonTextInput(false);
-                  }
-                }}
-                value={formData.firstGroupValue}
-              >
-                <View style={styles.radioButton}>
-                  <RadioButton value="Done" />
-                  <Text style={styles.radioLabel}>Done</Text>
-                </View>
-                <View style={styles.radioButton}>
-                  <RadioButton value="Planned" />
-                  <Text style={styles.radioLabel}>Planned</Text>
-                </View>
-                <View style={styles.radioButton}>
-                  <RadioButton value="NotPlanned" />
-                  <Text style={styles.radioLabel}>Not Planned</Text>
-                </View>
-              </RadioButton.Group>
-            </View>
-          </View>
-
-          {showPlannedDatePicker && (
-            <View style={[styles.inputGroup,{marginTop:-20 , marginBottom:30}]}>
-              <Text style={styles.label}>Planned Date</Text>
-              <View style={[styles.datePickerContainer, { borderWidth: 1, borderColor: 'black', alignItems: 'center', paddingTop: 10, paddingBottom: 5, borderRadius: 5 }]}>
-                <TextInput
-                  style={{ flexGrow: 1, paddingHorizontal: 10 }}
-                  value={formData.date.toLocaleDateString()}
-                  placeholder="Select Date"
-                  editable={true}
-                />
-                <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.dateIcon}>
-                  <Icon name="date-range" size={24} color="black" />
-                </TouchableOpacity>
-                {showDatePicker && (
-                  <DateTimePicker
-                    value={formData.date}
-                    mode="date"
-                    display="default"
-                    onChange={onPlannedDateChange}
-                  />
-              )}
-              </View>
-            </View>
-          )}
-
-          {showReasonTextInput && (
-            <View style={[styles.inputGroup,{marginTop:-20 , marginBottom:30}]}>
-              <Text style={styles.label}>Reason</Text>
-              <TextInput
-                
-                value={formData.reason}
-                onChangeText={value => handleInputChange('reason', value)}
-                placeholder="Enter Reason"
-                style={styles.inputText}
-              />
-            </View>
-          )}
 
           <Pressable onPress={takeImage}  style={[{marginTop:6 , width:130 , paddingHorizontal:10 , paddingVertical:5 , borderWidth:1 , borderRadius:5 , backgroundColor:blue  , display:'flex' , flexDirection:'row' , gap:5 , alignItems:'start'}]}>
             <Text style={{color:'white'}}>Take Image</Text>
             <TouchableOpacity style={styles.imagePicker}>
               <Icon name="camera-alt" size={24} color="white" />
             </TouchableOpacity>
-            {console.log({formData})}
           </Pressable>
             {formData.image && <Image source={{ uri: formData.image.uri }} style={styles.image} />}
 
@@ -356,7 +218,6 @@ const CorpVisit = () => {
               ))}
               <TouchableOpacity onPress={addTeamMember} style={styles.addButton}>
                 <Icon name="add-circle-outline" size={24} color="green" />
-                <Text style={styles.addButtonText}>Add Member</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -462,4 +323,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default CorpVisit;
+export default HomeVisit;
