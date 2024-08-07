@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -19,7 +19,13 @@ const Login = ({setUserLoggedIn}) => {
   const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const {user} = useSelector((state) => state.user);
-    console.log(user);
+
+    useEffect(() => {
+      if(user?.access) setUserLoggedIn(true);
+    },[])
+
+
+
   const handleLogin = async () => {
     setLoading(true);
    try{ 
@@ -50,7 +56,7 @@ const Login = ({setUserLoggedIn}) => {
       style={styles.container}
     >
       <View style={styles.loginBox}>
-        <Text style={styles.title}>Welcome Back!</Text>
+        <Text style={styles.title}>Sage Anandam!</Text>
 
         <TextInput
           style={styles.input}
@@ -70,7 +76,7 @@ const Login = ({setUserLoggedIn}) => {
         />
 
         <TouchableOpacity onPress={handleLogin} disabled={loading} style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={loading ? {color:'gray'} : styles.buttonText}>{loading ? 'Loading...' : 'Login'}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleForgotPasswordPress} style={{ width:'100%'}}><Text style={{textAlign:'right'}}>Forgot Password</Text></TouchableOpacity>
       </View>

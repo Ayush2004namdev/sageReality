@@ -12,7 +12,7 @@ const Header = () => {
           source={require('../assets/logo.png')} 
           style={styles.logo}
         />
-        <Text style={styles.title}>Sage Reality</Text>
+        <Text style={styles.title}>Sage Realty</Text>
       </View>
     </SafeAreaView>
   );
